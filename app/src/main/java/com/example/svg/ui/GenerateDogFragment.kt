@@ -15,14 +15,13 @@ import com.example.svg.databinding.FragmentGenerateDogBinding
 import com.example.svg.repository.GenerateDogRepositoryImpl
 import com.example.svg.viewmodel.GenerateDogViewModel
 import com.example.svg.viewmodel.GenerateDogViewModelFactory
+import org.koin.android.ext.android.get
 
 class GenerateDogFragment : Fragment() {
 
     private lateinit var mBinding: FragmentGenerateDogBinding
     private lateinit var viewModel: GenerateDogViewModel
     private lateinit var viewModelProviderFactory: GenerateDogViewModelFactory
-    private lateinit var generateDogRepository: GenerateDogRepositoryImpl
-    private lateinit var retrofitHelper: RetrofitHelper
 
 
     override fun onCreateView(
@@ -32,9 +31,7 @@ class GenerateDogFragment : Fragment() {
         // Inflate the layout for this fragment
         mBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_generate_dog, container, false)
-        retrofitHelper = RetrofitHelper()
-        generateDogRepository = GenerateDogRepositoryImpl(retrofitHelper)
-        viewModelProviderFactory = GenerateDogViewModelFactory(generateDogRepository)
+        viewModelProviderFactory = GenerateDogViewModelFactory(get())
         viewModel = ViewModelProvider(
             requireActivity(),
             viewModelProviderFactory

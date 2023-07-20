@@ -27,14 +27,13 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import java.util.LinkedList
+import org.koin.android.ext.android.get
 
 class BaseFragment : Fragment() {
 
     private lateinit var mBinding: FragmentBaseBinding
     private lateinit var viewModel: GenerateDogViewModel
     private lateinit var viewModelProviderFactory: GenerateDogViewModelFactory
-    private lateinit var generateDogRepository: GenerateDogRepositoryImpl
-    private lateinit var retrofitHelper: RetrofitHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,9 +41,7 @@ class BaseFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_base, container, false)
-        retrofitHelper = RetrofitHelper()
-        generateDogRepository = GenerateDogRepositoryImpl(retrofitHelper)
-        viewModelProviderFactory = GenerateDogViewModelFactory(generateDogRepository)
+        viewModelProviderFactory = GenerateDogViewModelFactory(get())
         viewModel = ViewModelProvider(requireActivity(), viewModelProviderFactory)[GenerateDogViewModel::class.java]
 
         var gson = Gson()
